@@ -1,0 +1,2 @@
+FLADK_APP=pybo
+FLASK_ENV=development
