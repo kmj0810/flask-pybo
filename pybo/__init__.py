@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 import config
 
-db: SQLAlchemy = SQLAlchemy()
+db = SQLAlchemy()
 migrate = Migrate()
 
 # 애플리케이션 팩토리
