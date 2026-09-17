@@ -7,7 +7,7 @@
 <!--        브라우저에 있는 csrf_token확인-->
         {{ form.csrf_token }}
 
-        {{% include 'form_errors.html' %}}
+        {% include 'form_errors.html' %}
 
         {{ form.subject.label }}  <!-- <label for="">제목</label> -->
         {{ form.subject(class='form-control mb-3') }}      <!-- <input type="text" name="" id=""> -->
