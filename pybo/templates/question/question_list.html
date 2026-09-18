@@ -3,10 +3,20 @@
 {% block content %}
 <!--질문 목록-->
 <div class="container my-3">
-    <div class="text-end">
-        <a href="{{ url_for('question.create') }}" class="btn btn-primary btn-sm mb-2">질문 등록하기</a>
+    <div class="row my-e">
+        <div class="col-md-8">
+            <a href="{{ url_for('question.create') }}" class="btn btn-primary btn-sm mb-2">질문 등록하기</a>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" id="search_kw" class="form-control"
+                    value="{{ kw or '' }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="btn_search">찾기</button>
+                </div>
+            </div>
+        </div>
     </div>
-
     <table class="table table-hover">
       <thead>
         <tr class="table-dark">
@@ -55,7 +65,7 @@
         {% if page_num %}
         {% if page_num != question_list.page %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+            <a class="page-link" data-page="{{ page_num }}" href="javascript:void(0)">{{ page_num }}</a>
         </li>
         {% else %}
         <li class="page-item active" aria-current="page">
@@ -81,7 +91,36 @@
     </ul>
     <!--페이징처리 끝-->
 
-    <a href="{{ url_for('question.create') }}" class="btn btn-primary">질문 등록하기</a>
+    <form action="{{ url_for('question._list') }}" method="get" id="searchForm">
+        <input type="hidden" id="kw" name="kw" value="{{ kw or '' }}">
+        <input type="hidden" id="page" name="page" value="{{ page }}">
+    </form>
+<!--    <a href="{{ url_for('question.create') }}" class="btn btn-primary">질문 등록하기</a>-->
 
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    // 페이지 버튼 클릭시
+    const page_elements=document.querySelectorAll('.page-link')
+    console.log(page_elements)
+    page_elements.forEach(element => {
+        element.addEventListener('click', function(){
+            const page = this.dataset.page;
+            if(page){
+                document.getElementById('page').value = page;
+                document.getElementById('searchForm').submit();
+            }
+        })
+    })
+
+    // 검색 버튼 클릭시
+    const btn_search = document.getElementById('btn_search')
+    btn_search.addEventListener('click', function(){
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value=1;
+        document.getElementById('searchForm').submit();
+    })
+</script>
 {% endblock %}
